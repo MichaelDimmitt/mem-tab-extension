@@ -31,7 +31,7 @@ function checkMemory(tabId) {
         cond4: process.tabId,
         process,
       })
-      if (process.type === "renderer" && process.tabId === tabId) {
+      if (process.type === "renderer") {
         const memory = process.privateMemory / 1024 / 1024; // Convert bytes to MB
         const color = getColorForMemory(memory);
         console.error({tabId, color, p: process.privateMemory, memory})
