@@ -1,4 +1,6 @@
+console.log("Running on", window.location.href)
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log('reached2')
   if (message.action === "updateColor") {
     updateFavicon(message.color);
     sendResponse({ status: "Color updated" });
@@ -6,6 +8,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 });
 
 function updateFavicon(color) {
+  console.log('reached3')
   // Remove existing favicon
   let link = document.querySelector("link[rel*='icon']");
   if (link) {
