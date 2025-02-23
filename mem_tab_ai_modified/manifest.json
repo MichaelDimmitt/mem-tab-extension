@@ -17,8 +17,5 @@
       "matches": ["<all_urls>"],
       "js": ["content.js"]
     }
-  ],
-  "icons": {
-    "128": "icon.png"
-  }
+  ]
 }
