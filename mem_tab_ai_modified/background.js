@@ -17,28 +17,33 @@ setInterval(() => {
       checkMemory(tabs[0].id);
     }
   });
-}, 5000);
+}, 30000);
 
 function checkMemory(tabId) {
-  console.log('reached6')
-  chrome.processes.onUpdated.addListener((processes) => {
+  console.log('reached6', {tabId})
+  // let once = false;
+  chrome.processes.onUpdatedWithMemory.addListener((processes) => {
+  // if(once) { return }
+  // else {
+  // once = true;
     for (let pid in processes) {
       const process = processes[pid];
-      console.log({
-        cond1: process.type === "renderer", 
-        cond2: process.tabId === tabId,
-        tabId, 
-        cond4: process.tabId,
-        process,
-      })
-      if (process.type === "renderer") {
+      if (process.type === "renderer" && process.tasks[0].tabId === tabId) {
+        // console.log({
+        //   len: Object.keys(processes).length,
+        //   cpu: process.cpu * 10,
+        //   heapAllocated: process.jsMemoryAllocated / 1024 / 1024,
+        //   heapUsed: process.jsMemoryUsed / 1024 / 1024
+        // })
         const memory = process.privateMemory / 1024 / 1024; // Convert bytes to MB
+        // const mem2 = (process.jsMemoryAllocated / 1024 / 1024); // Convert bytes to MB
         const color = getColorForMemory(memory);
-        console.error({tabId, color, p: process.privateMemory, memory})
+        // console.log({tabId, color, p: process.privateMemory, memory, mem2})
         sendColorToTab(tabId, color);
         break; // Stop after finding the tab’s process
       }
     }
+  // }
   });
 }
 
