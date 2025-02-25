@@ -35,25 +35,51 @@ function getColorForMemory(memory) {
 }
 
 function updateFavicon(color) {
-  // Remove existing favicon
   let link = document.querySelector("link[rel*='icon']");
+  let src;
+  console.log({link})
   if (link) {
+    link.src = src;
     link.remove();
   }
 
-  // Create new favicon with the specified color
+  // Get Favicon
+  const img = document.createElement('img');
+	  img.src = src ? src : `${window.location.origin}/favicon.ico`;
+
+  // region Create new favicon with the specified color
   const canvas = document.createElement("canvas");
   canvas.width = 16;
   canvas.height = 16;
   const ctx = canvas.getContext("2d");
-  ctx.fillStyle = color;
-  ctx.fillRect(0, 0, 16, 16);
 
-  // Add the new favicon
-  const faviconUrl = canvas.toDataURL("image/png");
-  link = document.createElement("link");
-  link.type = "image/png";
-  link.rel = "icon";
-  link.href = faviconUrl;
-  document.head.appendChild(link);
+  setTimeout(() => {
+    ctx.drawImage(img, 0, 0, 16, 16);
+	  ctx.strokeStyle = color;
+	  ctx.lineWidth = 3; // border width
+    // drawSquare(ctx);
+    drawCircle(ctx);
+  // endregion
+    
+    // region Add the new favicon
+    const faviconUrl = canvas.toDataURL("image/webp", 1.0);
+    link = document.createElement("link");
+    link.type = "image/webp";
+    link.rel = "icon";
+    link.href = faviconUrl;
+    document.head.appendChild(link);
+    // endregion
+  }, 300);
+}
+
+function drawSquare (ctx) {
+  ctx.strokeRect(0,0,16,16)
+  return ctx;
+}
+
+function drawCircle(ctx) {
+  ctx.beginPath();
+  ctx.arc(8, 8, 8, 0, Math.PI * 2, true);
+  ctx.stroke();
+  return ctx;
 }
