@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "MemTab Glow",
+  "version": "1.0",
+  "description": "Changes tab favicon color based on memory usage.",
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
