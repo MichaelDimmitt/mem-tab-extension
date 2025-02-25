@@ -53,8 +53,18 @@ function updateFavicon(color) {
   canvas.height = 16;
   const ctx = canvas.getContext("2d");
 
-  setTimeout(() => {
-    ctx.drawImage(img, 0, 0, 16, 16);
+  setTimeout(async () => {
+    try {
+      ctx.drawImage(img, 0, 0, 16, 16);
+    } catch (error) { 
+    /* 
+      You dont have an image, so you get nothing. You Lose!
+      Good Day Sir!
+      https://www.youtube.com/watch?v=fpK36FZmTFY&t=74s
+
+      ... but it will still show a circle around the performance!
+    */
+    }
 	  ctx.strokeStyle = color;
 	  ctx.lineWidth = 3; // border width
     // drawSquare(ctx);
