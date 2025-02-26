@@ -1,13 +1,19 @@
-// Run checkMemory immediately and then use a setInterval to re-evaluate every 5 seconds.
-checkMemory(); let interval = setInterval(() => { console.log('starting-interval'); checkMemory(); }, 5000);
+function doWorkWithInterval(message) {
+  // Run checkMemory immediately and then use a setInterval to re-evaluate every 5 seconds.
+  console.log(message);
+  checkMemory();
+  return setInterval(() => { console.log(message); checkMemory(); }, 5000);
+}
+
+let interval = doWorkWithInterval('starting-interval')
 
 // https://stackoverflow.com/a/39326553/5283424
-function onchange () {
+function onchange() {
   // Clear interval since someone navigated away from the tab.
-  if(document.hidden)       { console.log('left page'); clearInterval(interval); }
+  if (document.hidden) { console.log('left page'); clearInterval(interval); }
   // Run checkMemory immediately and then use a setInterval to re-evaluate every 5 seconds.
-  else if(!document.hidden) { console.log('visited page'); checkMemory(); interval = setInterval(() => { console.log('onchange-interval'); checkMemory(); }, 2000) } // Check memory usage periodically (every 5 seconds) }
-  else                      { alert('should not be reached, no document was undefined?') }
+  else if (!document.hidden) { console.log('visited page'); interval = doWorkWithInterval('onchange-interval'); }
+  else { alert('should not be reached, no document was undefined?') }
 }
 
 // https://stackoverflow.com/a/39326553/5283424
