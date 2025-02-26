@@ -14,10 +14,21 @@ function doWorkWithInterval(message) {
 
   // Get and Set Favicon
   img = document.createElement('img');
+  img.crossorigin="anonymous"
   img.src = src ? src : `${window.location.origin}/favicon.ico`;
 
   return setInterval(() => { console.log(message); checkMemory(); }, 5000);
 }
+
+function appendBanner(color) {
+  const oldEl = document.getElementById('appended-banner')
+  if(oldEl) { oldEl.remove() }
+  const el = document.createElement('div');
+  // How to make top level div clickthroughable. - https://stackoverflow.com/a/26799885/5283424
+  el.style = `pointer-events: none; width: 100vw; border-top: solid ${color} 10px; position: fixed;z-index: 10000000000`;
+  el.id = 'appended-banner';
+  document.body.prepend(el);  
+} 
 
 let interval = doWorkWithInterval('starting-interval-mode')
 
@@ -43,9 +54,12 @@ function checkMemory() {
     d_uppBuffer: (totalJSHeapSize / 1024 / 1024) - (usedJSHeapSize / 1024 / 1024),
     e_bufferLimit: (jsHeapSizeLimit / 1024 / 1024) - (usedJSHeapSize / 1024 / 1024)
   })
+
   const memory = totalJSHeapSize / 1024 / 1024; // Convert bytes to MB
   const color = getColorForMemory(memory);
+
   updateFavicon(color);
+  appendBanner(color);
 }
 
 function getColorForMemory(memory) {
@@ -68,7 +82,7 @@ function updateFavicon(color) {
       /* 
         You dont have an image, so you get nothing. You Lose!
         Good Day Sir!
-        https://www.youtube.com/watch?v=fpK36FZmTFY&t=74s
+        https://www.youtube.com/watch?v=fpK36FZmTFY&t=60s
   
         ... but it will still show a circle around the performance!
       */
