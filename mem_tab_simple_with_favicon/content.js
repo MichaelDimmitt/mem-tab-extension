@@ -1,7 +1,21 @@
+let img
 function doWorkWithInterval(message) {
   // Run checkMemory immediately and then use a setInterval to re-evaluate every 5 seconds.
   console.log(message);
   checkMemory();
+
+  let link = document.querySelector("link[rel*='icon']");
+  let src;
+
+  if (link) {
+    link.src = src;
+    link.remove();
+  }
+
+  // Get and Set Favicon
+  img = document.createElement('img');
+  img.src = src ? src : `${window.location.origin}/favicon.ico`;
+
   return setInterval(() => { console.log(message); checkMemory(); }, 5000);
 }
 
@@ -41,18 +55,6 @@ function getColorForMemory(memory) {
 }
 
 function updateFavicon(color) {
-  let link = document.querySelector("link[rel*='icon']");
-  let src;
-  console.log({link})
-  if (link) {
-    link.src = src;
-    link.remove();
-  }
-
-  // Get Favicon
-  const img = document.createElement('img');
-	  img.src = src ? src : `${window.location.origin}/favicon.ico`;
-
   // region Create new favicon with the specified color
   const canvas = document.createElement("canvas");
   canvas.width = 16;

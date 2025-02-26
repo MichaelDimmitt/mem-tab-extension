@@ -1,18 +1,32 @@
+let img
 function doWorkWithInterval(message) {
   // Run checkMemory immediately and then use a setInterval to re-evaluate every 5 seconds.
   console.log(message);
   checkMemory();
+
+  let link = document.querySelector("link[rel*='icon']");
+  let src;
+
+  if (link) {
+    link.src = src;
+    link.remove();
+  }
+
+  // Get and Set Favicon
+  img = document.createElement('img');
+  img.src = src ? src : `${window.location.origin}/favicon.ico`;
+
   return setInterval(() => { console.log(message); checkMemory(); }, 5000);
 }
 
-let interval = doWorkWithInterval('starting-interval')
+let interval = doWorkWithInterval('starting-interval-mode')
 
 // https://stackoverflow.com/a/39326553/5283424
 function onchange() {
   // Clear interval since someone navigated away from the tab.
   if (document.hidden) { console.log('left page'); clearInterval(interval); }
   // Run checkMemory immediately and then use a setInterval to re-evaluate every 5 seconds.
-  else if (!document.hidden) { console.log('visited page'); interval = doWorkWithInterval('onchange-interval'); }
+  else if (!document.hidden) { console.log('visited page'); interval = doWorkWithInterval('onchange-interval-mode'); }
   else { alert('should not be reached, no document was undefined?') }
 }
 
@@ -41,18 +55,6 @@ function getColorForMemory(memory) {
 }
 
 function updateFavicon(color) {
-  let link = document.querySelector("link[rel*='icon']");
-  let src;
-  console.log({ link })
-  if (link) {
-    link.src = src;
-    link.remove();
-  }
-
-  // Get Favicon
-  const img = document.createElement('img');
-  img.src = src ? src : `${window.location.origin}/favicon.ico`;
-
   // region Create new favicon with the specified color
   const canvas = document.createElement("canvas");
   canvas.width = 16;
